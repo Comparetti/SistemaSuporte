@@ -8,7 +8,6 @@ namespace SuporteCore.Entity
     {
         public Intermeio()
         {
-
         }
         public string TransacaoId { get; set; }
         public string Bandeira { get; set; }
