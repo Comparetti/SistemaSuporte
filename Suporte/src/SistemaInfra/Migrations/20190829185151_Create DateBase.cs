@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SistemaInfra.Migrations
 {
-    public partial class CreateDataBase : Migration
+    public partial class CreateDateBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace SistemaInfra.Migrations
                 name: "Intermeio",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    IntermeioId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nsu = table.Column<string>(nullable: false),
                     Card_number = table.Column<string>(nullable: false),
@@ -37,14 +37,14 @@ namespace SistemaInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Intermeio", x => x.Id);
+                    table.PrimaryKey("PK_Intermeio", x => x.IntermeioId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Phoebus",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    PhoebusId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nsu = table.Column<string>(nullable: false),
                     Card_number = table.Column<string>(nullable: false),
@@ -87,12 +87,46 @@ namespace SistemaInfra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Phoebus", x => x.Id);
+                    table.PrimaryKey("PK_Phoebus", x => x.PhoebusId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Analise",
+                columns: table => new
+                {
+                    AnaliseId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nsu = table.Column<string>(nullable: false),
+                    Card_number = table.Column<string>(nullable: false),
+                    Terminal = table.Column<string>(nullable: true),
+                    Confirmation_date = table.Column<string>(nullable: true),
+                    Date_base = table.Column<DateTime>(nullable: true),
+                    CpfCnpj = table.Column<string>(nullable: true),
+                    NomeRazao = table.Column<string>(nullable: true),
+                    PhoebusId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Analise", x => x.AnaliseId);
+                    table.ForeignKey(
+                        name: "FK_Analise_Phoebus_PhoebusId",
+                        column: x => x.PhoebusId,
+                        principalTable: "Phoebus",
+                        principalColumn: "PhoebusId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Analise_PhoebusId",
+                table: "Analise",
+                column: "PhoebusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Analise");
+
             migrationBuilder.DropTable(
                 name: "Intermeio");
 

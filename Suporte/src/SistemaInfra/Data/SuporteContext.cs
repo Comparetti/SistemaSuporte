@@ -13,6 +13,6 @@ namespace SistemaInfra.Data
         }
         public DbSet<Intermeio> Intermeio { get; set; }
         public DbSet<Phoebus> Phoebus { get; set; }
-
+        public DbSet<Analise> Analise { get; set; }
     }
 }

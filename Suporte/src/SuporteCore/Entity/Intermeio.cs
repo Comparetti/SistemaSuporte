@@ -9,6 +9,7 @@ namespace SuporteCore.Entity
         public Intermeio()
         {
         }
+        public int IntermeioId { get; set; }
         public string TransacaoId { get; set; }
         public string Bandeira { get; set; }
         public string CodAutorizacao { get; set; }

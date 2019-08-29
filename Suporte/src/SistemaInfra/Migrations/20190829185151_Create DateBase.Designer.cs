@@ -10,8 +10,8 @@ using SistemaInfra.Data;
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    [Migration("20190829162154_Create DataBase")]
-    partial class CreateDataBase
+    [Migration("20190829185151_Create DateBase")]
+    partial class CreateDateBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,40 @@ namespace SistemaInfra.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SuporteCore.Entity.Analise", b =>
+                {
+                    b.Property<int>("AnaliseId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Card_number")
+                        .IsRequired();
+
+                    b.Property<string>("Confirmation_date");
+
+                    b.Property<string>("CpfCnpj");
+
+                    b.Property<DateTime?>("Date_base");
+
+                    b.Property<string>("NomeRazao");
+
+                    b.Property<string>("Nsu")
+                        .IsRequired();
+
+                    b.Property<int>("PhoebusId");
+
+                    b.Property<string>("Terminal");
+
+                    b.HasKey("AnaliseId");
+
+                    b.HasIndex("PhoebusId");
+
+                    b.ToTable("Analise");
+                });
+
             modelBuilder.Entity("SuporteCore.Entity.Intermeio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("IntermeioId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -69,14 +100,14 @@ namespace SistemaInfra.Migrations
 
                     b.Property<string>("Valor");
 
-                    b.HasKey("Id");
+                    b.HasKey("IntermeioId");
 
                     b.ToTable("Intermeio");
                 });
 
             modelBuilder.Entity("SuporteCore.Entity.Phoebus", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PhoebusId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -158,9 +189,17 @@ namespace SistemaInfra.Migrations
 
                     b.Property<string>("value");
 
-                    b.HasKey("Id");
+                    b.HasKey("PhoebusId");
 
                     b.ToTable("Phoebus");
+                });
+
+            modelBuilder.Entity("SuporteCore.Entity.Analise", b =>
+                {
+                    b.HasOne("SuporteCore.Entity.Phoebus", "Phoebus")
+                        .WithMany()
+                        .HasForeignKey("PhoebusId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

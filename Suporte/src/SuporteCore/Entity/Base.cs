@@ -10,7 +10,6 @@ namespace SuporteCore.Entity
         public Base()
         {
         }
-        public int Id { get; set; }
         /// <summary>
         /// Chave Unica da Transação
         /// </summary>

@@ -9,6 +9,7 @@ namespace SuporteCore.Entity
         public Phoebus()
         {
         }
+        public int PhoebusId { get; set; }
         public string Acquirer_nsu { get; set; }
         public string value { get; set; }
         public string Status { get; set; }
