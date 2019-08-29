@@ -4,18 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace SistemaInfra.Repository
 {
-    class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly SuporteContext _context;
         public Repository(SuporteContext context)
         {
             _context = context;
         }
-        public T Create(T entity)
+        public virtual T Create(T entity)
         {
             _context.Set<T>().Add(entity);
             _context.SaveChanges();

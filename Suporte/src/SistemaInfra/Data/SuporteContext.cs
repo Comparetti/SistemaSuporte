@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SuporteCore.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SistemaInfra.Data
 {
