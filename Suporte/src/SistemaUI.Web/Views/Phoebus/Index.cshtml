@@ -1,0 +1,256 @@
+﻿@model IEnumerable<SuporteCore.Entity.Phoebus>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Acquirer_nsu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parcels)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Start_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Finish_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Response_code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authorization_number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tef_terminal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal_serial_number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal_manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal_model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Acquirer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Merchant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tef_merchant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Merchant_category_code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Merchant_national_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Merchant_national_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Card_input_method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Requested_password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fallback)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Origin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authorization_time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client_version)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Server_version)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Original_nsu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Original_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Card_holder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nsu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Card_number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Terminal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Confirmation_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_base)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Acquirer_nsu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parcels)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Finish_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Response_code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Authorization_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tef_terminal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Terminal_serial_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Terminal_manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Terminal_model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Terminal_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Acquirer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merchant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tef_merchant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merchant_category_code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merchant_national_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merchant_national_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card_input_method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requested_password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fallback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Authorization_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client_version)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Server_version)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Original_nsu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Original_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card_holder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nsu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Terminal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Confirmation_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_base)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PhoebusId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PhoebusId">Details</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,15 +1,17 @@
-﻿using System;
+﻿using SuporteCore.Entity;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SuporteCore.Interfaces.Repository
 {
     public interface IRepository<T> where T : class
     {
-        T Create(T entity);
+        IEnumerable<T> Add(IEnumerable<T> listEntity);
         IEnumerable<T> GetAll();
         T GetById(int? id);
-        IEnumerable<T> Get(Expression<Func<T, bool>> predicado);
+        T Get(Expression<Func<T, bool>> predicado);
         void Delete(T entity);
     }
 }

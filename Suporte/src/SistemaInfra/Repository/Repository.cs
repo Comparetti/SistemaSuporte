@@ -1,4 +1,5 @@
 ﻿using SistemaInfra.Data;
+using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,11 @@ namespace SistemaInfra.Repository
         {
             _context = context;
         }
-        public virtual T Create(T entity)
+        public IEnumerable<T> Add(IEnumerable<T> listEntity)
         {
-            _context.Set<T>().Add(entity);
+            _context.Set<T>().AddRange(listEntity);
             _context.SaveChanges();
-            return entity;
+            return listEntity;
         }
         public void Delete(T entity)
         {
@@ -35,10 +36,14 @@ namespace SistemaInfra.Repository
         {
             return _context.Set<T>().AsEnumerable();
         }
-
         public T GetById(int? id)
         {
             return _context.Set<T>().Find(id);
+        }
+
+        T IRepository<T>.Get(Expression<Func<T, bool>> predicado)
+        {
+            throw new NotImplementedException();
         }
     }
 }

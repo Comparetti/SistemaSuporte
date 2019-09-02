@@ -9,7 +9,7 @@ namespace SuporteCore.Entity
         public Analise()
         {
         }
-        public int AnaliseId { get; set; }
+        public int ANaliseId { get; set; }
         public string CpfCnpj { get; set; }
         public string NomeRazao { get; set; }
         public int PhoebusId { get; set; }
