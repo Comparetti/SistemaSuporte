@@ -18,6 +18,7 @@ using SuporteCore.Interfaces.Repository;
 using SistemaInfra.Repository;
 using SuporteCore.Interfaces.Service;
 using SuporteCore.Service;
+using ReflectionIT.Mvc.Paging;
 
 namespace SistemaUI.Web
 {
@@ -63,13 +64,16 @@ namespace SistemaUI.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddPaging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IPhoebusService phoebusService, IIntermeioService intermeioService)
         {
             if (env.IsDevelopment())
             {
+         //       intermeioService.GetAllBaseIntermeio();
+       //         phoebusService.RequestPhoebus(DateTime.Now);
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }

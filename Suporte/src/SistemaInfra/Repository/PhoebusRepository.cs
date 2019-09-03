@@ -16,10 +16,5 @@ namespace SistemaInfra.Repository
             var result = from obj in _context.Phoebus select obj;
             return result;
         }
-
-        IQueryable<Phoebus> IPhoebusRepository.GetQueryable()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

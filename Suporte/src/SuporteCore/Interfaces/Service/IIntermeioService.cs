@@ -8,9 +8,12 @@ namespace SuporteCore.Interfaces.Service
 {
     public interface IIntermeioService
     {
-        IEnumerable<Intermeio> GetAll();
+        void GetAllBaseIntermeio();
         Intermeio IntermeioByNsu(string nsu);
         void ValidationBaseByNsu(List<Intermeio> listIntermeios);
         Task<Tuple<List<Intermeio>, DateTime?, DateTime?>> FindByIntermeioAsync(DateTime? minDate, DateTime? maxDate, string search);
+
+        IEnumerable<Intermeio> GetAll();
+
     }
 }

@@ -13,19 +13,22 @@ namespace SuporteCore.Service
 {
     public class IntermeioService : IIntermeioService
     {
-        private List<Intermeio> ListIntermeio;
+        private List<Intermeio> ListIntermeio = new List<Intermeio>();
         private readonly IIntermeioRepository _IntRepository;
 
         public IntermeioService(IIntermeioRepository repository)
         {
             _IntRepository = repository;
         }
-
+        public IEnumerable<Intermeio> GetAll()
+        {
+           return _IntRepository.GetAll();
+        }
         public async Task<Tuple<List<Intermeio>, DateTime?, DateTime?>> FindByIntermeioAsync(DateTime? minDate, DateTime? maxDate, string search)
         {
             if (!minDate.HasValue)
                 minDate = new DateTime(DateTime.Now.Year, 1, 1);
-            if (!maxDate.HasValue) 
+            if (!maxDate.HasValue)
                 maxDate = DateTime.Now;
 
             var result = _IntRepository.GetQueryable()
@@ -44,7 +47,7 @@ namespace SuporteCore.Service
         /// Pega todas informações do banco Intermeio
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Intermeio> GetAll()
+        public void GetAllBaseIntermeio()
         {
             #region Connection
             string dateTime = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
@@ -63,6 +66,7 @@ namespace SuporteCore.Service
                     intermeio.CodAutorizacao = Convert.ToString(reader["CodAutorizacao"]);
                     intermeio.Nsu = Convert.ToString(reader["Nsu"]);
                     intermeio.Valor = Convert.ToString(reader["Valor"]);
+                    intermeio.Card_number = Convert.ToString(reader["MascaraCartao"]);
 
                     intermeio.PosId = Convert.ToString(reader["PosId"]);
                     intermeio.MID = Convert.ToString(reader["MID"]);
@@ -82,7 +86,7 @@ namespace SuporteCore.Service
                     ListIntermeio.Add(intermeio);
                 }
                 _con.Close();
-                return ListIntermeio;
+                ValidationBaseByNsu(ListIntermeio);
             }
         }
 
@@ -92,7 +96,17 @@ namespace SuporteCore.Service
         }
         public void ValidationBaseByNsu(List<Intermeio> listIntermeios)
         {
-
+            List<Intermeio> ListInt = new List<Intermeio>();
+            var resultNsu = listIntermeios.Select(x => x.Nsu).ToList().Except(_IntRepository.GetAll().Select(x => x.Nsu).ToList());
+            Parallel.ForEach(listIntermeios, item =>
+            {
+                if (resultNsu.Any(x => x == item.Nsu))
+                {
+                    item.Date_base = DateTime.Now;
+                    ListInt.Add(item);
+                }
+            });
+            _IntRepository.Add(ListInt);
         }
     }
 }

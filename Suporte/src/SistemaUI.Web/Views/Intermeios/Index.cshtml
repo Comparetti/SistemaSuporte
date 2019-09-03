@@ -2,46 +2,48 @@
 @using ReflectionIT.Mvc.Paging
 @addTagHelper*, ReflectionIT.Mvc.Paging
 @{
-    ViewData["Title"] = "Consulta Phoebus";
+    ViewData["Title"] = "Intermeio";
 }
 <h2>@ViewData["Title"]</h2>
 
-<br />
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <form asp-action="Index" class="navbar-form navbar-left" role="search" method="get">
-            <div class="form-group">
-                <div class="form-group">
-                    <label for="minDate">Min Data:</label>
-                    <input type="date" class="form-control" name="minDate" Value="@ViewData["minDate"]" />
-                </div>
-                <div class="form-group">
-                    <label for="maxDate">Max Data:</label>
-                    <input type="date" class="form-control" name="maxDate" Value="@ViewData["maxDate"]" />
-                </div>
-                <div class="form-group">
-                    <label> Phoebus:</label>
-                    <input class="form-control" type="text" name="search" value="@ViewData["Filter"]" placeholder="Nsu, Terminal, Bandeira..." />
-                </div>
-            </div>
-            <input type="submit" value="Pesquisar" class="btn btn-primary" /> |
-            <a asp-action="Index" class="btn btn-danger"><span class="glyphicon glyphicon-refresh"></span></a>
-        </form>
-    </div>
-</nav>
-
-<br />
 <div class="row">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Bando de dados Phouebus</h3>
+    <div class="card">
+        <div class="card-header">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <form asp-action="Index" class="form-inline" role="search" method="get">
+                        <div class="form-group mb-2">
+                            <label for="minDate">Min Data: </label>
+                            <input type="date" class="form-control" name="minDate" Value="@ViewData["minDate"]" />
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="maxDate">Max Data: </label>
+                            <input type="date" class="form-control" name="maxDate" Value="@ViewData["maxDate"]" />
+                        </div>
+                        <div class="form-group mx-sm mb-2">
+                            <label> Phoebus:</label>
+                            <input class="form-control" type="text" name="search" value="@ViewData["Filter"]" placeholder="Nsu, Terminal, Bandeira..." />
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <input type="submit" value="Pesquisar" class="btn btn-primary" />
+                        </div>
+                        <div class="form-group mx-sm mb-2">
+                            <a asp-action="Index" class="btn btn-danger">Voltar</a>
+                        </div>
+                    </form>
+                </div>
+            </nav>
         </div>
-        <div class="panel-body">
-            <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <div class="card-body">
+            <table id="dtBasicExample" class="table table-hover table-bordered table-sm" cellspacing="0" width="100%">
                 <thead>
-                    <tr class="active">
+                    <tr class="table-active">
                         <th class="th-sm" style="text-align:center">
                             Data
+                        </th>
+
+                        <th class="th-sm" style="text-align:center">
+                            CNPJ
                         </th>
                         <th class="th-sm" style="text-align:center">
                             Bandeira
@@ -58,52 +60,48 @@
                         <th class="th-sm" style="text-align:center">
                             Autorizador
                         </th>
-                        <th class="th-sm" style="text-align:center">
-                            Terminal
-                        </th>
                         <th style="text-align:center">
-                            Ação
+
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <!-- item.start_date = item.start_date.Substring(0, 10);-->
-                        <tr class="th-sm" style="text-align:center">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Date_base)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Card_number)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Valor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nsu)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Card_number)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CodAutorizacao)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Terminal)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.IntermeioId" class="btn btn-success"><span class="glyphicon glyphicon-glyphicon glyphicon-plus" aria-hidden="true">Analise</span></a>
-                                <a asp-action="Details" asp-route-id="@item.IntermeioId" class="btn btn-info">Details</a>
-                            </td>
-                        </tr>
+                    <tr class="th-sm" style="text-align:center">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date_base)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CpfCnpj)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Bandeira)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Valor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nsu)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Card_number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CodAutorizacao)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.IntermeioId" class="btn btn-outline-info">Detalhes</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
+            <nav aria-label="navigation" style="text-align:right">
+                <vc:pager paging-list="@Model" />
+            </nav>
         </div>
     </div>
-    <nav aria-label="navigation" style="text-align:right">
-        <vc:pager paging-list="@Model" />
-    </nav>
 </div>
+
 

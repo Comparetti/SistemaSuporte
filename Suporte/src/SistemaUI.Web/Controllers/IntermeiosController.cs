@@ -5,24 +5,36 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using SistemaInfra.Data;
 using SuporteCore.Entity;
+using SuporteCore.Interfaces.Service;
 
 namespace SistemaUI.Web.Controllers
 {
     public class IntermeiosController : Controller
     {
+        private readonly IIntermeioService _interService;
         private readonly SuporteContext _context;
 
-        public IntermeiosController(SuporteContext context)
+        public IntermeiosController(SuporteContext context, IIntermeioService inter)
         {
+            _interService = inter;
             _context = context;
         }
 
         // GET: Intermeios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, DateTime? minDate, DateTime? maxDate, int page = 1)
         {
-            return View(await _context.Intermeio.ToListAsync());
+            if (!String.IsNullOrEmpty(search))
+            {
+                var result = await _interService.FindByIntermeioAsync(minDate, maxDate, search);
+                ViewData["Filter"] = search;
+                ViewData["minDate"] = result.Item2.Value.ToString("yyyy-MM-dd");
+                ViewData["maxDate"] = result.Item3.Value.ToString("yyyy-MM-dd");
+                return View(result.Item1);
+            }
+            return View(await PagingList.CreateAsync(_context.Intermeio.AsNoTracking().OrderByDescending(r => r.Date_base), 20, page));
         }
 
         // GET: Intermeios/Details/5
