@@ -1,8 +1,11 @@
-﻿using SuporteCore.Entity;
+﻿using ReflectionIT.Mvc.Paging;
+using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using SuporteCore.Interfaces.Service;
+using SuporteCore.Util;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +14,7 @@ namespace SuporteCore.Service
 {
     public class AnaliseService : IAnaliseService
     {
-        private List<Analise> listAnalise;
+        private readonly List<Analise> listAnalise = new List<Analise>();
         private readonly IIntermeioRepository _IntRepository;
         private readonly IPhoebusRepository _phRepository;
         private readonly IAnaliseRepository _analiRepository;
@@ -31,7 +34,7 @@ namespace SuporteCore.Service
         public IEnumerable<Analise> GetAll()
         {
             throw new NotImplementedException();
-            
+
         }
 
         public void Update(Analise analise)
@@ -47,7 +50,7 @@ namespace SuporteCore.Service
                 if (search.Any(x => x == ph.Nsu.ToString()))
                 {
                     Analise analise = new Analise();
-                    var usuario = GetUsuario(analise.Nsu);
+                    var usuario = GetUsuario(ph.Terminal);
                     analise.Card_number = ph.Card_number;
                     analise.Confirmation_date = ph.Confirmation_date;
                     analise.Nsu = ph.Nsu;
@@ -57,15 +60,53 @@ namespace SuporteCore.Service
                     analise.Date_base = DateTime.Now;
                     analise.CpfCnpj = usuario.CpfCnpj;
                     analise.NomeRazao = usuario.NomeRazao;
+                    analise.Obsservacao = "";
                     listAnalise.Add(analise);
                 }
             });
-            _analiRepository.Add(listAnalise);
+            ValidationByNsu(listAnalise);
         }
-        public Intermeio GetUsuario(string nsu)
+
+        public void ValidationByNsu(List<Analise> listAnalise)
         {
-            var intermeio = _IntRepository.GetAll().Where(x => x.Nsu == nsu);
-            return intermeio.FirstOrDefault();
+            List<Analise> lstIntermeio = new List<Analise>();
+            var resultNsu = listAnalise.Select(x => x.Nsu).ToList().Except(_analiRepository.GetAll().Select(x => x.Nsu).ToList());
+
+            Parallel.ForEach(listAnalise, item =>
+            {
+                if (resultNsu.Any(x => x == item.Nsu))
+                {
+                    item.Date_base = DateTime.Now;
+                    lstIntermeio.Add(item);
+                }
+            });
+            _analiRepository.Add(lstIntermeio);
+        }
+
+        public Intermeio GetUsuario(string terminal)
+        {
+            var intermeio = _IntRepository.GetAll().Where(x => x.Terminal == terminal).FirstOrDefault();
+            return intermeio;
+        }
+
+        public async Task<Tuple<List<Analise>, DateTime?, DateTime?>> FindByAnaliseAsync(DateTime? minDate, DateTime? maxDate, string search)
+        {
+            if (!minDate.HasValue)
+                minDate = new DateTime(DateTime.Now.Year, 1, 1);
+            if (!maxDate.HasValue)
+                maxDate = DateTime.Now;
+
+            var result = _analiRepository.GetQueryable()
+                .Where(r => r.Date_base >= minDate.Value || r.Date_base <= maxDate.Value);
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                result = result.Where(x =>
+                x.Nsu.Contains(search) ||
+                x.Terminal.Contains(search) ||
+                x.Card_number.Contains(search));
+            }
+            return new Tuple<List<Analise>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
     }
 }

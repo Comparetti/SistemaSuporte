@@ -13,7 +13,7 @@ namespace SuporteCore.Service
 {
     public class IntermeioService : IIntermeioService
     {
-        private List<Intermeio> ListIntermeio = new List<Intermeio>();
+        private readonly List<Intermeio> ListIntermeio = new List<Intermeio>();
         private readonly IIntermeioRepository _IntRepository;
 
         public IntermeioService(IIntermeioRepository repository)
@@ -36,10 +36,10 @@ namespace SuporteCore.Service
 
             if (!String.IsNullOrEmpty(search))
             {
-                result = result.Where(ph =>
-                ph.Nsu.ToString().Contains(search) ||
-                ph.Terminal.Contains(search) ||
-                ph.Card_number.Contains(search));
+                result = result.Where(x =>
+                x.Nsu.Contains(search) ||
+                x.Terminal.Contains(search) ||
+                x.Card_number.Contains(search));
             }
             return new Tuple<List<Intermeio>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
@@ -62,22 +62,25 @@ namespace SuporteCore.Service
                 while (reader.Read())
                 {
                     Intermeio intermeio = new Intermeio();
+                    intermeio.TransacaoId = Convert.ToString(reader["Id"]);
                     intermeio.Bandeira = Convert.ToString(reader["Bandeira"]);
                     intermeio.CodAutorizacao = Convert.ToString(reader["CodAutorizacao"]);
                     intermeio.Nsu = Convert.ToString(reader["Nsu"]);
                     intermeio.Valor = Convert.ToString(reader["Valor"]);
+                    intermeio.Confirmation_date = Convert.ToString(reader["DataCadastro"]);
                     intermeio.Card_number = Convert.ToString(reader["MascaraCartao"]);
 
                     intermeio.PosId = Convert.ToString(reader["PosId"]);
+                    intermeio.Terminal = Convert.ToString(reader["NumeroLogico"]);
                     intermeio.MID = Convert.ToString(reader["MID"]);
                     intermeio.Modelo = Convert.ToString(reader["Modelo"]);
                     intermeio.NumeroDeSerie = Convert.ToString(reader["NumeroDeSerie"]);
                     intermeio.Status = Convert.ToString(reader["Status"]);
                     intermeio.TID = Convert.ToString(reader["TID"]);
 
+                    intermeio.UsuarioId = Convert.ToString(reader["UsuarioId"]);
                     intermeio.CpfCnpj = Convert.ToString(reader["CpfCnpj"]);
                     intermeio.NomeRazao = Convert.ToString(reader["NomeRazao"]);
-                    intermeio.Status = Convert.ToString(reader["Status"]);
                     intermeio.SaldoLiberado = Convert.ToString(reader["SaldoLiberado"]);
                     intermeio.Email = Convert.ToString(reader["Email"]);
 

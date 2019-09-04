@@ -7,5 +7,7 @@ namespace SuporteCore.Interfaces.Repository
     public interface IPhoebusRepository : IRepository<Phoebus>
     {
         IQueryable<Phoebus> GetQueryable();
+
+        void UpdatePhoebus(Phoebus phoebus);
     }
 }

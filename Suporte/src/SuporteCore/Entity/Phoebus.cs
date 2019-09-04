@@ -43,5 +43,6 @@ namespace SuporteCore.Entity
         public string Original_nsu { get; set; }
         public string Original_date { get; set; }
         public string Card_holder { get; set; }
+        public bool Status_Valido { get; set; }
     }
 }

@@ -41,12 +41,8 @@
                         <th class="th-sm" style="text-align:center">
                             Data
                         </th>
-
                         <th class="th-sm" style="text-align:center">
                             CNPJ
-                        </th>
-                        <th class="th-sm" style="text-align:center">
-                            Bandeira
                         </th>
                         <th class="th-sm" style="text-align:center">
                             Valor
@@ -61,6 +57,9 @@
                             Autorizador
                         </th>
                         <th style="text-align:center">
+                            Nº Serie
+                        </th>
+                        <th style="text-align:center">
 
                         </th>
                     </tr>
@@ -68,32 +67,32 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr class="th-sm" style="text-align:center">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date_base)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CpfCnpj)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Bandeira)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Valor)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nsu)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Card_number)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CodAutorizacao)
-                        </td>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@item.IntermeioId" class="btn btn-outline-info">Detalhes</a>
-                        </td>
-                    </tr>
+                        <tr class="th-sm" style="text-align:center">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date_base)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CpfCnpj)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Valor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nsu)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Card_number)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CodAutorizacao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumeroDeSerie)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.IntermeioId" class="btn btn-outline-info">Detalhes</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

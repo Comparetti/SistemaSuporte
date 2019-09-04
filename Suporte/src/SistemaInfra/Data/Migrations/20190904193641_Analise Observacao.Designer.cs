@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaInfra.Data;
 
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    partial class SuporteContextModelSnapshot : ModelSnapshot
+    [Migration("20190904193641_Analise Observacao")]
+    partial class AnaliseObservacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

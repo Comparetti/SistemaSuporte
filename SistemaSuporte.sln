@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaInfra", "Suporte\src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaUI.Web", "Suporte\src\SistemaUI.Web\SistemaUI.Web.csproj", "{A272C2C9-2578-440F-A847-C874CF7B935B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuporteCore.Testes", "Suporte\src\SuporteCore.Testes\SuporteCore.Testes.csproj", "{C61EEB85-ED39-4BFB-8D19-1ECAE2D80071}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuporteCore.Testes", "Suporte\src\SuporteCore.Testes\SuporteCore.Testes.csproj", "{C61EEB85-ED39-4BFB-8D19-1ECAE2D80071}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

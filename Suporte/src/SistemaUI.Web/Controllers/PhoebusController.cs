@@ -90,10 +90,5 @@ namespace SistemaUI.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool PhoebusExists(int id)
-        {
-            return _context.Phoebus.Any(e => e.PhoebusId == id);
-        }
     }
 }

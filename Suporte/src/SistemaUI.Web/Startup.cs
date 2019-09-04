@@ -64,7 +64,7 @@ namespace SistemaUI.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddPaging();
+           // services.AddPaging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,8 +72,8 @@ namespace SistemaUI.Web
         {
             if (env.IsDevelopment())
             {
-         //       intermeioService.GetAllBaseIntermeio();
-       //         phoebusService.RequestPhoebus(DateTime.Now);
+                intermeioService.GetAllBaseIntermeio();
+                phoebusService.RequestPhoebus(DateTime.Now);
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }

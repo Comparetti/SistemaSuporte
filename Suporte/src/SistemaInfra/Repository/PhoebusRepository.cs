@@ -11,6 +11,11 @@ namespace SistemaInfra.Repository
         public PhoebusRepository(SuporteContext context) : base (context)
         {
         }
+        public void UpdatePhoebus(Phoebus phoebus)
+        {
+            _context.Phoebus.Update(phoebus);
+            _context.SaveChanges();
+        }
         public IQueryable<Phoebus> GetQueryable()
         {
             var result = from obj in _context.Phoebus select obj;

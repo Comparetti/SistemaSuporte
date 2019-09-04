@@ -9,10 +9,11 @@ namespace SuporteCore.Entity
         public Analise()
         {
         }
-        public int ANaliseId { get; set; }
+        public int AnaliseId { get; set; }
         public string CpfCnpj { get; set; }
         public string NomeRazao { get; set; }
         public int PhoebusId { get; set; }
         public Phoebus Phoebus { get; set; }
+        public string Obsservacao { get; set; }
     }
 }

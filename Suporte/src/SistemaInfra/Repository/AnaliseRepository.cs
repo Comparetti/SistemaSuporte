@@ -3,6 +3,7 @@ using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -12,6 +13,12 @@ namespace SistemaInfra.Repository
     {
         public AnaliseRepository(SuporteContext context) : base(context)
         {
+        }
+
+        public IQueryable<Analise> GetQueryable()
+        {
+            var result = from obj in _context.Analise select obj;
+            return result;
         }
     }
 }

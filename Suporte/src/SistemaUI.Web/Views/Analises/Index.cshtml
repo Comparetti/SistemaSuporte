@@ -1,76 +1,103 @@
-﻿@model IEnumerable<SuporteCore.Entity.Analise>
-
+﻿@model ReflectionIT.Mvc.Paging.PagingList<SuporteCore.Entity.Analise>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper*, ReflectionIT.Mvc.Paging
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Analise";
 }
+<h2>@ViewData["Title"]</h2>
 
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CpfCnpj)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeRazao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phoebus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nsu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card_number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Terminal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Confirmation_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date_base)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CpfCnpj)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeRazao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phoebus.Card_number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nsu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Card_number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Terminal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Confirmation_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_base)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ANaliseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ANaliseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ANaliseId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <form asp-action="Index" class="form-inline" role="search" method="get">
+                        <div class="form-group mb-2">
+                            <label for="minDate">Min Data: </label>
+                            <input type="date" class="form-control" name="minDate" Value="@ViewData["minDate"]" />
+                        </div>
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="maxDate">Max Data: </label>
+                            <input type="date" class="form-control" name="maxDate" Value="@ViewData["maxDate"]" />
+                        </div>
+                        <div class="form-group mx-sm mb-2">
+                            <label> Phoebus:</label>
+                            <input class="form-control" type="text" name="search" value="@ViewData["Filter"]" placeholder="Nsu, Terminal, Bandeira..." />
+                        </div>
+                        <div class="form-group mx-sm-2 mb-2">
+                            <input type="submit" value="Pesquisar" class="btn btn-primary" />
+                        </div>
+                        <div class="form-group mx-sm mb-2">
+                            <a asp-action="Index" class="btn btn-danger">Voltar</a>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <div class="card-body">
+            <table id="dtBasicExample" class="table table-hover table-bordered table-sm" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="table-active">
+                        <th class="th-sm" style="text-align:center">
+                            Data
+                        </th>
+                        <th class="th-sm" style="text-align:center">
+                           Nome Razao
+                        </th>
+                        <th class="th-sm" style="text-align:center">
+                            Numero Cartao
+                        </th>
+                        <th class="th-sm" style="text-align:center">
+                            CPNJ
+                        </th>
+                        <th class="th-sm" style="text-align:center">
+                            NSU
+                        </th>
+                        <th class="th-sm" style="text-align:center">
+                            Terminal
+                        </th>
+                        <th style="text-align:center">
+                            Ação
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        
+                    <tr class="th-sm" style="text-align:center">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date_base)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeRazao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Card_number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CpfCnpj)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nsu)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Terminal)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.AnaliseId" class="btn btn-outline-success"><span class="glyphicon glyphicon-glyphicon glyphicon-plus" aria-hidden="true">Ocorrencia</span></a>
+                            <a asp-action="Details" asp-route-id="@item.AnaliseId" class="btn btn-outline-info">Info</a>
+                            <a asp-action="Delete" asp-route-id="@item.AnaliseId" class="btn btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="navigation" style="text-align:right">
+                <vc:pager paging-list="@Model" />
+            </nav>
+        </div>
+    </div>
+</div>
+
+

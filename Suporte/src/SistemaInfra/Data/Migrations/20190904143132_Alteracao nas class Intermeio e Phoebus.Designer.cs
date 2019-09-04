@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaInfra.Data;
 
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    partial class SuporteContextModelSnapshot : ModelSnapshot
+    [Migration("20190904143132_Alteracao nas class Intermeio e Phoebus")]
+    partial class AlteracaonasclassIntermeioePhoebus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace SistemaInfra.Migrations
 
             modelBuilder.Entity("SuporteCore.Entity.Analise", b =>
                 {
-                    b.Property<int>("AnaliseId")
+                    b.Property<int>("ANaliseId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -39,13 +41,11 @@ namespace SistemaInfra.Migrations
                     b.Property<string>("Nsu")
                         .IsRequired();
 
-                    b.Property<string>("Obsservacao");
-
                     b.Property<int>("PhoebusId");
 
                     b.Property<string>("Terminal");
 
-                    b.HasKey("AnaliseId");
+                    b.HasKey("ANaliseId");
 
                     b.HasIndex("PhoebusId");
 
@@ -172,8 +172,6 @@ namespace SistemaInfra.Migrations
                     b.Property<string>("Start_date");
 
                     b.Property<string>("Status");
-
-                    b.Property<bool>("Status_Valido");
 
                     b.Property<string>("Tef_merchant");
 
