@@ -16,5 +16,11 @@ namespace SuporteCore.Util
                   "inner join Usuarios us on us.Id = tk.UsuarioId " +
                   "where pos.DataCadastro >= '";
         public const string _con = (@"Server=209.126.106.186\SQL2016;user ID=suporte1;password=inttec2018A;Database=API3");
+        public const string strPos = "select * from Pos ps " +
+                                      "inner join NumerosLogicoPos ns on ns.Id = ps.NumeroLogicoId " +
+                                      "inner join Usuarios us on us.Id = ps.UsuarioId "+
+                                      "where NumeroLogico = '";
+
+
     }
 }

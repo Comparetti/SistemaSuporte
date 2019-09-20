@@ -13,12 +13,23 @@ namespace SuporteCore.Service
 {
     public class IntermeioService : IIntermeioService
     {
+        #region head
         private readonly List<Intermeio> ListIntermeio = new List<Intermeio>();
         private readonly IIntermeioRepository _IntRepository;
+        SqlConnection _con = new SqlConnection();
+        string str;
+        #endregion
 
         public IntermeioService(IIntermeioRepository repository)
         {
             _IntRepository = repository;
+        }
+        public void Connection()
+        {
+            string dateTime = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            _con = new SqlConnection(Constante._con);
+            str = Constante.str + dateTime + "' " +
+                  "order by pos.DataCadastro desc";
         }
         public IEnumerable<Intermeio> GetAll()
         {
@@ -43,18 +54,14 @@ namespace SuporteCore.Service
             }
             return new Tuple<List<Intermeio>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
+
         /// <summary>
         /// Pega todas informações do banco Intermeio
         /// </summary>
         /// <returns></returns>
         public void GetAllBaseIntermeio()
         {
-            #region Connection
-            string dateTime = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-            SqlConnection _con = new SqlConnection(Constante._con);
-            string str = Constante.str + dateTime + "' " +
-                  "order by pos.DataCadastro desc";
-            #endregion
+            Connection();
             using (SqlCommand coon = new SqlCommand(str, _con))
             {
                 _con.Open();
@@ -92,7 +99,32 @@ namespace SuporteCore.Service
                 ValidationBaseByNsu(ListIntermeio);
             }
         }
-
+        /// <summary>
+        /// Buscar Usuario no banco da Intermeio
+        /// </summary>
+        /// <param name="numSerie"></param>
+        /// <returns></returns>
+        public Intermeio GetUsuario(string numLogico)
+        {
+            Intermeio usuario = new Intermeio();
+            Connection();
+            var t = Constante.strPos + numLogico + "'";
+            using (SqlCommand coon = new SqlCommand(Constante.strPos+ numLogico + "'", _con))
+            {
+                _con.Open();
+                SqlDataReader reader = coon.ExecuteReader();
+                while (reader.Read())
+                {
+                    usuario.UsuarioId = Convert.ToString(reader["UsuarioId"]);
+                    usuario.CpfCnpj = Convert.ToString(reader["CpfCnpj"]);
+                    usuario.NomeRazao = Convert.ToString(reader["NomeRazao"]);
+                    usuario.SaldoLiberado = Convert.ToString(reader["SaldoLiberado"]);
+                    usuario.Email = Convert.ToString(reader["Email"]);
+                }
+                _con.Close();
+            }
+            return usuario;
+        }
         public Intermeio IntermeioByNsu(string nsu)
         {
             throw new NotImplementedException();

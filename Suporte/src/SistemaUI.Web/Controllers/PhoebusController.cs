@@ -26,6 +26,7 @@ namespace SistemaUI.Web.Controllers
         }
 
         // GET: Phoebus
+        [HttpGet("api/ph")]
         public async Task<IActionResult> Index(string search, DateTime? minDate, DateTime? maxDate, int page = 1)
         {
             if (!String.IsNullOrEmpty(search))

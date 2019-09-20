@@ -1,6 +1,8 @@
 ﻿using SuporteCore.Entity;
+using SuporteCore.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -13,5 +15,6 @@ namespace SuporteCore.Interfaces.Service
         Task<Tuple<List<Phoebus>, DateTime?, DateTime?>> FindByPhoebusAsync(DateTime? minDate, DateTime? maxDate, string search);
         IEnumerable<Phoebus> GetAll();
         Phoebus GetByNsu(string nsu);
+        Paginacao PhQueryPag(PhoebusUrlQuery urlQuery, int qntPag, IQueryable<Phoebus> queryPhoebus);
     }
 }

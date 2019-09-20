@@ -4,8 +4,11 @@
 @{
     ViewData["Title"] = "Analise";
 }
-<h2>@ViewData["Title"]</h2>
-
+<br />
+<div>
+    <a asp-action="SincAll" class="btn btn-outline-warning">Sincronizar</a>
+</div>
+<br />
 <div class="row">
     <div class="card">
         <div class="card-header">
@@ -42,7 +45,7 @@
                             Data
                         </th>
                         <th class="th-sm" style="text-align:center">
-                           Nome Razao
+                            Nome Razao
                         </th>
                         <th class="th-sm" style="text-align:center">
                             Numero Cartao
@@ -64,32 +67,32 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        
-                    <tr class="th-sm" style="text-align:center">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date_base)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NomeRazao)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Card_number)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CpfCnpj)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nsu)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Terminal)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.AnaliseId" class="btn btn-outline-success"><span class="glyphicon glyphicon-glyphicon glyphicon-plus" aria-hidden="true">Ocorrencia</span></a>
-                            <a asp-action="Details" asp-route-id="@item.AnaliseId" class="btn btn-outline-info">Info</a>
-                            <a asp-action="Delete" asp-route-id="@item.AnaliseId" class="btn btn-outline-danger">Delete</a>
-                        </td>
-                    </tr>
+
+                        <tr class="th-sm" style="text-align:center">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date_base)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NomeRazao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Card_number)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CpfCnpj)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nsu)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Terminal)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.AnaliseId" class="btn btn-outline-success"><span class="glyphicon glyphicon-glyphicon glyphicon-plus" aria-hidden="true">Ocorrencia</span></a>
+                                <a asp-action="Details" asp-route-id="@item.AnaliseId" class="btn btn-outline-info">Info</a>
+                                <a asp-action="Delete" asp-route-id="@item.AnaliseId" class="btn btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

@@ -1,4 +1,5 @@
-﻿using ReflectionIT.Mvc.Paging;
+﻿using Newtonsoft.Json;
+using ReflectionIT.Mvc.Paging;
 using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using SuporteCore.Interfaces.Service;
@@ -38,6 +39,18 @@ namespace SuporteCore.Service
             }
             return new Tuple<List<Phoebus>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
+        public Paginacao PhQueryPag(PhoebusUrlQuery urlQuery, int qntRegistro, IQueryable<Phoebus> ph)
+        {
+            var url = urlQuery;
+
+            var paginacao = new Paginacao();
+            paginacao.NumeroPagina = urlQuery.PagNumero.Value;
+            paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
+            paginacao.TotalRegistro = qntRegistro;
+            paginacao.TotalPaginas = (int)Math.Ceiling((double)qntRegistro / urlQuery.PagRegistro.Value);
+
+            return paginacao;
+        }
         public IEnumerable<Phoebus> GetAll()
         {
             return _phRepository.GetAll();
@@ -50,6 +63,7 @@ namespace SuporteCore.Service
         {
             var parametros = $"payments?date={Date.ToString("yyyy-MM-dd")}&init_time={init_Time}&finish_time={finish_Time}&page_size=100";
             var result = Util.RequestPhoebus.Get<DefaultRequest>(Constante.UrlEndPoint + parametros);
+       
             //Create Query more pages request Phoebus
             ValidationBaseByNsu(result.content);
         }
@@ -67,5 +81,6 @@ namespace SuporteCore.Service
             });
             _phRepository.Add(ListAddPhoebus);
         }
+
     }
 }

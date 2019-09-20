@@ -13,6 +13,7 @@ namespace SuporteCore.Interfaces.Service
         void ValidationBaseByNsu(List<Intermeio> listIntermeios);
         Task<Tuple<List<Intermeio>, DateTime?, DateTime?>> FindByIntermeioAsync(DateTime? minDate, DateTime? maxDate, string search);
         IEnumerable<Intermeio> GetAll();
+        Intermeio GetUsuario(string numSerie);
 
     }
 }

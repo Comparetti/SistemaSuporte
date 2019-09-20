@@ -18,12 +18,14 @@ namespace SuporteCore.Service
         private readonly IIntermeioRepository _IntRepository;
         private readonly IPhoebusRepository _phRepository;
         private readonly IAnaliseRepository _analiRepository;
+        private readonly IIntermeioService _IntermeioService;
 
-        public AnaliseService(IIntermeioRepository Intermeiorepository, IPhoebusRepository phoebusRepository, IAnaliseRepository analiseRepository)
+        public AnaliseService(IIntermeioRepository Intermeiorepository, IPhoebusRepository phoebusRepository, IAnaliseRepository analiseRepository, IIntermeioService intermeioService)
         {
             _IntRepository = Intermeiorepository;
             _phRepository = phoebusRepository;
             _analiRepository = analiseRepository;
+            _IntermeioService = intermeioService;
         }
 
         public void Delete(Analise analise)
@@ -41,11 +43,14 @@ namespace SuporteCore.Service
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Analise as transações que não contem no nosso banco
+        /// </summary>
         public void ValidationAnalise()
         {
             var search = _phRepository.GetAll().Select(x => x.Nsu.ToString()).ToList().Except(_IntRepository.GetAll().Select(x => x.Nsu.ToString()).ToList());
-            Parallel.ForEach(_phRepository.GetAll().ToList(), ph =>
+
+            foreach (var ph in _phRepository.GetAll().ToList())
             {
                 if (search.Any(x => x == ph.Nsu.ToString()))
                 {
@@ -63,8 +68,15 @@ namespace SuporteCore.Service
                     analise.Obsservacao = "";
                     listAnalise.Add(analise);
                 }
-            });
+            }
             ValidationByNsu(listAnalise);
+        }
+        public Intermeio GetUsuario(string terminal)
+        {
+            var intermeio = _IntRepository.GetAll().Where(x => x.Terminal == terminal).FirstOrDefault();
+            if (intermeio == null)
+                intermeio = _IntermeioService.GetUsuario(terminal);
+            return intermeio;
         }
 
         public void ValidationByNsu(List<Analise> listAnalise)
@@ -83,11 +95,7 @@ namespace SuporteCore.Service
             _analiRepository.Add(lstIntermeio);
         }
 
-        public Intermeio GetUsuario(string terminal)
-        {
-            var intermeio = _IntRepository.GetAll().Where(x => x.Terminal == terminal).FirstOrDefault();
-            return intermeio;
-        }
+
 
         public async Task<Tuple<List<Analise>, DateTime?, DateTime?>> FindByAnaliseAsync(DateTime? minDate, DateTime? maxDate, string search)
         {

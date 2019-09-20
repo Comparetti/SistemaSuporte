@@ -15,19 +15,22 @@ namespace SistemaUI.Web.Controllers
     public class AnalisesController : Controller
     {
         private readonly IAnaliseService _analiseService;
+        private readonly IPhoebusService _phoebusService;
+        private readonly IIntermeioService _intermeioService;
         private readonly SuporteContext _context;
 
-        public AnalisesController(SuporteContext context, IAnaliseService analiseService)
+        public AnalisesController(SuporteContext context, IAnaliseService analiseService, IPhoebusService phoebusService, IIntermeioService intermeioService)
         {
             _context = context;
             _analiseService = analiseService;
+            _phoebusService = phoebusService;
+            _intermeioService = intermeioService;
         }
 
-        // GET: Analises
 
+        // GET: Analises
         public async Task<IActionResult> Index(string search, DateTime? minDate, DateTime? maxDate, int page = 1)
         {
-            _analiseService.ValidationAnalise();
             var suporteContext = _context.Analise.Include(a => a.Phoebus);
             if (!String.IsNullOrEmpty(search))
             {
@@ -50,9 +53,7 @@ namespace SistemaUI.Web.Controllers
                 .Include(a => a.Phoebus)
                 .FirstOrDefaultAsync(m => m.AnaliseId == id);
             if (analise == null)
-            {
                 return NotFound();
-            }
 
             return View(analise);
         }
@@ -167,6 +168,14 @@ namespace SistemaUI.Web.Controllers
         private bool AnaliseExists(int id)
         {
             return _context.Analise.Any(e => e.AnaliseId == id);
+        }
+
+        public IActionResult SincAll()
+        {
+            _phoebusService.RequestPhoebus(DateTime.Now);
+            _intermeioService.GetAllBaseIntermeio();
+            _analiseService.ValidationAnalise();
+            return RedirectToAction("Index");
         }
     }
 }

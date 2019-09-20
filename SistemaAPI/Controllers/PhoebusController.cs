@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using SuporteCore.Interfaces.Repository;
+using SuporteCore.Interfaces.Service;
+using SuporteCore.Util;
+
+namespace SistemaAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PhoebusController : ControllerBase
+    {
+        private readonly IPhoebusRepository _PhRespository;
+        private readonly IPhoebusService _phoebusService;
+        
+
+        public PhoebusController(IPhoebusRepository context, IPhoebusService phoebusService)
+        {
+            _phoebusService = phoebusService;
+            _PhRespository = context;
+        }
+        // GET: api/Phoebus
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+        [Route("Index")]
+        [HttpGet]
+        public IActionResult Index([FromQuery]PhoebusUrlQuery urlQuery)
+        {
+            var phQuery = _PhRespository.GetAll().AsQueryable();
+            var qntRegistro = phQuery.Count();
+
+            if (urlQuery.PagNumero.HasValue)
+            {
+                phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
+                var paginacao = _phoebusService.PhQueryPag(urlQuery, qntRegistro, phQuery);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginacao));
+
+                if (urlQuery.PagNumero > paginacao.TotalPaginas)
+                    return NotFound();
+            }
+            return Ok(phQuery);  
+        }
+         
+        // GET: api/Phoebus/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST: api/Phoebus
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT: api/Phoebus/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}
