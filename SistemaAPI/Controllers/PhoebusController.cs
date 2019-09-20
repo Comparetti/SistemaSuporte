@@ -32,19 +32,14 @@ namespace SistemaAPI.Controllers
         [HttpGet]
         public IActionResult Index([FromQuery]PhoebusUrlQuery urlQuery)
         {
-            var phQuery = _PhRespository.GetAll().AsQueryable();
-            var qntRegistro = phQuery.Count();
-
+            var paginacao = _phoebusService.PhQueryPag(urlQuery);
             if (urlQuery.PagNumero.HasValue)
             {
-                phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
-                var paginacao = _phoebusService.PhQueryPag(urlQuery, qntRegistro, phQuery);
-                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginacao));
-
-                if (urlQuery.PagNumero > paginacao.TotalPaginas)
+                if (urlQuery.PagNumero > paginacao.Paginacao.TotalPaginas)
                     return NotFound();
             }
-            return Ok(phQuery);  
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(paginacao.Paginacao));
+            return Ok(paginacao.ToList());  
         }
          
         // GET: api/Phoebus/5

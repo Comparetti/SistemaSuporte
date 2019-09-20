@@ -32,24 +32,34 @@ namespace SuporteCore.Service
 
             if (!String.IsNullOrEmpty(search))
             {
-                result = result.Where(ph => 
+                result = result.Where(ph =>
                 ph.Nsu.ToString().Contains(search) ||
                 ph.Terminal.Contains(search) ||
                 ph.Card_number.Contains(search));
             }
             return new Tuple<List<Phoebus>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
-        public Paginacao PhQueryPag(PhoebusUrlQuery urlQuery, int qntRegistro, IQueryable<Phoebus> ph)
+        public ListPaginacao<Phoebus> PhQueryPag(PhoebusUrlQuery urlQuery, IQueryable<Phoebus> ph)
         {
-            var url = urlQuery;
+            var lstPaginacao = new ListPaginacao<Phoebus>();
+            var phQuery = _phRepository.GetAll().AsQueryable();
+            var qntRegistro = phQuery.Count();
+            phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
 
-            var paginacao = new Paginacao();
-            paginacao.NumeroPagina = urlQuery.PagNumero.Value;
-            paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
-            paginacao.TotalRegistro = qntRegistro;
-            paginacao.TotalPaginas = (int)Math.Ceiling((double)qntRegistro / urlQuery.PagRegistro.Value);
+            if (urlQuery.PagNumero.HasValue)
+            {
+                var paginacao = new Paginacao();
+                paginacao.NumeroPagina = urlQuery.PagNumero.Value;
+                paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
+                paginacao.TotalRegistro = qntRegistro;
+                paginacao.TotalPaginas = (int)Math.Ceiling((double)qntRegistro / urlQuery.PagRegistro.Value);
 
-            return paginacao;
+                lstPaginacao.Paginacao = paginacao;
+            }
+            lstPaginacao.AddRange(phQuery.ToList());
+
+            return lstPaginacao;
+
         }
         public IEnumerable<Phoebus> GetAll()
         {
@@ -63,7 +73,7 @@ namespace SuporteCore.Service
         {
             var parametros = $"payments?date={Date.ToString("yyyy-MM-dd")}&init_time={init_Time}&finish_time={finish_Time}&page_size=100";
             var result = Util.RequestPhoebus.Get<DefaultRequest>(Constante.UrlEndPoint + parametros);
-       
+
             //Create Query more pages request Phoebus
             ValidationBaseByNsu(result.content);
         }
