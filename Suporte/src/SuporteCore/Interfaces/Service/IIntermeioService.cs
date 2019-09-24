@@ -1,4 +1,5 @@
 ﻿using SuporteCore.Entity;
+using SuporteCore.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -14,6 +15,6 @@ namespace SuporteCore.Interfaces.Service
         Task<Tuple<List<Intermeio>, DateTime?, DateTime?>> FindByIntermeioAsync(DateTime? minDate, DateTime? maxDate, string search);
         IEnumerable<Intermeio> GetAll();
         Intermeio GetUsuario(string numSerie);
-
+        ListPaginacao<Intermeio> QueryPag(UrlQuery urlQuery);
     }
 }

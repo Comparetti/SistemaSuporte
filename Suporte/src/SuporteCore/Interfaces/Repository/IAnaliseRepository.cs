@@ -9,5 +9,7 @@ namespace SuporteCore.Interfaces.Repository
     public interface IAnaliseRepository : IRepository<Analise>
     {
         IQueryable<Analise> GetQueryable();
+
+        void UppAnaise(Analise analise);
     }
 }

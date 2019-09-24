@@ -9,5 +9,6 @@ namespace SuporteCore.Interfaces.Repository
         IQueryable<Phoebus> GetQueryable();
 
         void UpdatePhoebus(Phoebus phoebus);
+
     }
 }

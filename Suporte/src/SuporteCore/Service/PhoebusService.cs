@@ -39,15 +39,17 @@ namespace SuporteCore.Service
             }
             return new Tuple<List<Phoebus>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
-        public ListPaginacao<Phoebus> PhQueryPag(PhoebusUrlQuery urlQuery, IQueryable<Phoebus> ph)
+        public ListPaginacao<Phoebus> PhQueryPag(UrlQuery urlQuery)
         {
             var lstPaginacao = new ListPaginacao<Phoebus>();
             var phQuery = _phRepository.GetAll().AsQueryable();
-            var qntRegistro = phQuery.Count();
-            phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
+            
 
             if (urlQuery.PagNumero.HasValue)
             {
+                var qntRegistro = phQuery.Count();
+                phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
+
                 var paginacao = new Paginacao();
                 paginacao.NumeroPagina = urlQuery.PagNumero.Value;
                 paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
@@ -56,11 +58,12 @@ namespace SuporteCore.Service
 
                 lstPaginacao.Paginacao = paginacao;
             }
-            lstPaginacao.AddRange(phQuery.ToList());
+            lstPaginacao.Results.AddRange(phQuery.ToList());
 
             return lstPaginacao;
 
         }
+
         public IEnumerable<Phoebus> GetAll()
         {
             return _phRepository.GetAll();

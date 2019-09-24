@@ -14,7 +14,11 @@ namespace SistemaInfra.Repository
         public AnaliseRepository(SuporteContext context) : base(context)
         {
         }
-
+        public void UppAnaise(Analise analise)
+        {
+            _context.Analise.Update(analise);
+            _context.SaveChanges();
+        }
         public IQueryable<Analise> GetQueryable()
         {
             var result = from obj in _context.Analise select obj;

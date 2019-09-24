@@ -8,7 +8,7 @@ namespace SistemaInfra.Repository
 {
     public class PhoebusRepository : Repository<Phoebus>, IPhoebusRepository
     {
-        public PhoebusRepository(SuporteContext context) : base (context)
+        public PhoebusRepository(SuporteContext context) : base(context)
         {
         }
         public void UpdatePhoebus(Phoebus phoebus)
@@ -21,5 +21,6 @@ namespace SistemaInfra.Repository
             var result = from obj in _context.Phoebus select obj;
             return result;
         }
+
     }
 }

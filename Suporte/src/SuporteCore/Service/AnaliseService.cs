@@ -116,5 +116,31 @@ namespace SuporteCore.Service
             }
             return new Tuple<List<Analise>, DateTime?, DateTime?>(await PagingList.CreateAsync(result.OrderByDescending(x => x.Date_base), 20, 1), minDate, maxDate);
         }
+
+        public ListPaginacao<Analise> QueryPag(UrlQuery urlQuery)
+        {
+            var lstPaginacao = new ListPaginacao<Analise>();
+            var phQuery = _analiRepository.GetAll().AsQueryable();
+
+
+            if (urlQuery.PagNumero.HasValue)
+            {
+                var qntRegistro = phQuery.Count();
+                phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
+
+                var paginacao = new Paginacao();
+                paginacao.NumeroPagina = urlQuery.PagNumero.Value;
+                paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
+                paginacao.TotalRegistro = qntRegistro;
+                paginacao.TotalPaginas = (int)Math.Ceiling((double)qntRegistro / urlQuery.PagRegistro.Value);
+
+                lstPaginacao.Paginacao = paginacao;
+            }
+            lstPaginacao.Results.AddRange(phQuery.ToList());
+
+            return lstPaginacao;
+
+        }
+
     }
 }

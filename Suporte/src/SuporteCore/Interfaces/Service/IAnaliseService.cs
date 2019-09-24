@@ -1,4 +1,5 @@
 ﻿using SuporteCore.Entity;
+using SuporteCore.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,5 +15,6 @@ namespace SuporteCore.Interfaces.Service
         void ValidationAnalise();
         void ValidationByNsu(List<Analise> analises);
         Task<Tuple<List<Analise>, DateTime?, DateTime?>> FindByAnaliseAsync(DateTime? minDate, DateTime? maxDate, string search);
+        ListPaginacao<Analise> QueryPag(UrlQuery urlQuery);
     }
 }

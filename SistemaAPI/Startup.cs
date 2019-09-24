@@ -16,6 +16,8 @@ using SistemaInfra.Repository;
 using SuporteCore.Interfaces.Repository;
 using SuporteCore.Interfaces.Service;
 using SuporteCore.Service;
+using AutoMapper;
+using SuporteCore.Util;
 
 namespace SistemaAPI
 {
@@ -31,6 +33,16 @@ namespace SistemaAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            #region AutoMapper
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new DTOMapperProfile());
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+            #endregion
+
             #region Dependency Injection
             //Repository
             services.AddScoped<IPhoebusRepository, PhoebusRepository>();

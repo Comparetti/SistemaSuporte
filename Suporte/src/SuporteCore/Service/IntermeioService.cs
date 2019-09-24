@@ -143,5 +143,30 @@ namespace SuporteCore.Service
             });
             _IntRepository.Add(ListInt);
         }
+
+        public ListPaginacao<Intermeio> QueryPag(UrlQuery urlQuery)
+        {
+            var lstPaginacao = new ListPaginacao<Intermeio>();
+            var phQuery = _IntRepository.GetAll().AsQueryable();
+
+
+            if (urlQuery.PagNumero.HasValue)
+            {
+                var qntRegistro = phQuery.Count();
+                phQuery = phQuery.Skip((urlQuery.PagNumero.Value - 1) * urlQuery.PagRegistro.Value).Take(urlQuery.PagRegistro.Value);
+
+                var paginacao = new Paginacao();
+                paginacao.NumeroPagina = urlQuery.PagNumero.Value;
+                paginacao.RegistroPorPagina = urlQuery.PagRegistro.Value;
+                paginacao.TotalRegistro = qntRegistro;
+                paginacao.TotalPaginas = (int)Math.Ceiling((double)qntRegistro / urlQuery.PagRegistro.Value);
+
+                lstPaginacao.Paginacao = paginacao;
+            }
+            lstPaginacao.Results.AddRange(phQuery.ToList());
+
+            return lstPaginacao;
+
+        }
     }
 }

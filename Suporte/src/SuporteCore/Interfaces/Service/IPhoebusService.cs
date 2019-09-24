@@ -15,6 +15,6 @@ namespace SuporteCore.Interfaces.Service
         Task<Tuple<List<Phoebus>, DateTime?, DateTime?>> FindByPhoebusAsync(DateTime? minDate, DateTime? maxDate, string search);
         IEnumerable<Phoebus> GetAll();
         Phoebus GetByNsu(string nsu);
-        ListPaginacao<Paginacao> PhQueryPag(PhoebusUrlQuery urlQuery);
+        ListPaginacao<Phoebus> PhQueryPag(UrlQuery urlQuery);
     }
 }
