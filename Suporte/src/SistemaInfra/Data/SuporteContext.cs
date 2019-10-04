@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SuporteCore.Entity;
 
 namespace SistemaInfra.Data
 {
-    public class SuporteContext : DbContext
+    public class SuporteContext : IdentityDbContext
     {
         public SuporteContext(DbContextOptions<SuporteContext> options) : base (options)
         {

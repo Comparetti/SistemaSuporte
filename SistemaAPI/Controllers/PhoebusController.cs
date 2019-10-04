@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SuporteCore.Entity;
@@ -12,7 +13,8 @@ using SuporteCore.Util;
 
 namespace SistemaAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+     [Route("api/[controller]")]
     [ApiController]
     public class PhoebusController : ControllerBase
     {
@@ -21,7 +23,7 @@ namespace SistemaAPI.Controllers
         private readonly IMapper _mapper;
 
 
-
+       
         public PhoebusController(IPhoebusRepository context, IPhoebusService phoebusService, IMapper mapper)
         {
             _phoebusService = phoebusService;
@@ -38,6 +40,7 @@ namespace SistemaAPI.Controllers
                 return NotFound();
 
             ListPaginacao<PhoebusDTO> lista = CreateLinksPhoebus(urlQuery, item);
+            var lst = lista;
             return Ok(lista);
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ using SuporteCore.Util;
 
 namespace SistemaAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class IntermaioController : ControllerBase
@@ -29,7 +31,7 @@ namespace SistemaAPI.Controllers
             _intRepository = context;
         }
         // GET: api/Intermaio
-        [HttpGet("", Name = "Index")]
+        [HttpGet("", Name = "IndexIntermeio")]
         public IActionResult Index([FromQuery]UrlQuery urlQuery)
         {
             var item = _intService.QueryPag(urlQuery);
@@ -42,7 +44,7 @@ namespace SistemaAPI.Controllers
         }
 
         // GET: api/Intermaio/5
-        [HttpGet("{id}", Name = "GetId")]
+        [HttpGet("{id}", Name = "GetIdIntermeio")]
         public IActionResult Get(int? id)
         {
             var inter = _intRepository.GetById(id);
@@ -76,7 +78,6 @@ namespace SistemaAPI.Controllers
                     var queryString = new UrlQuery() { PagNumero = urlQuery.PagNumero + 1, PagRegistro = urlQuery.PagRegistro };
                     lista.Links.Add(new LinkDTO("next", Url.Link("Index", queryString), "GET"));
                 }
-
                 if (urlQuery.PagNumero - 1 > 0)
                 {
                     var queryString = new UrlQuery() { PagNumero = urlQuery.PagNumero - 1, PagRegistro = urlQuery.PagRegistro };

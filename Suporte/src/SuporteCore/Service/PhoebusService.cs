@@ -42,6 +42,7 @@ namespace SuporteCore.Service
         public ListPaginacao<Phoebus> PhQueryPag(UrlQuery urlQuery)
         {
             var lstPaginacao = new ListPaginacao<Phoebus>();
+
             var phQuery = _phRepository.GetAll().AsQueryable();
             
 

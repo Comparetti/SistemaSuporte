@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,13 +15,15 @@ using SuporteCore.Util;
 
 namespace SistemaAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AnaliseController : ControllerBase
     {
+
         private readonly IAnaliseService _analiseService;
         private readonly IAnaliseRepository _analiseRepository;
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
         public AnaliseController(IAnaliseService analiseService, IAnaliseRepository analiseRepository, IMapper mapper)
         {
             _analiseRepository = analiseRepository;
@@ -29,43 +32,32 @@ namespace SistemaAPI.Controllers
         }
 
         // GET: api/Analise
-        [HttpGet("",Name = "Index")]
+        [HttpGet("", Name = "IndexAnalise")]
         public IActionResult Index([FromQuery]UrlQuery urlQuery)
         {
-
             var item = _analiseService.QueryPag(urlQuery);
-
-            if (item.Results.Count == 0)
+            if (_analiseService.QueryPag(urlQuery).Results.Count == 0)
                 return NotFound();
-
             ListPaginacao<AnaliseDTO> lst = CreateLinksAnalise(urlQuery, item);
-
             return Ok(lst);
         }
 
         // GET: api/Analise/5
-        [HttpGet("{id}", Name = "GetId")]
+        [HttpGet("{id}", Name = "GetIdAnalise")]
         public IActionResult Get(int? id)
         {
-
             if (id == null)
                 return NotFound();
-
-
             var analise = _analiseRepository.GetById(id);
-
-
+            #region LINK
             AnaliseDTO analiseDTO = _mapper.Map<Analise, AnaliseDTO>(analise);
-
             analiseDTO.Links.Add(
                 new LinkDTO("self", Url.Link("GetId", new { id = analise.AnaliseId }), "GET"));
             analiseDTO.Links.Add(
                 new LinkDTO("update", Url.Link("GetId", new { id = analise.AnaliseId }), ""));
             analiseDTO.Links.Add(
                 new LinkDTO("delete", Url.Link("GetId", new { id = analise.AnaliseId }), ""));
-
-
-
+            #endregion
             return Ok(analiseDTO);
         }
 
@@ -75,7 +67,7 @@ namespace SistemaAPI.Controllers
         {
             _analiseRepository.UppAnaise(analise);
 
-            AnaliseDTO analiseDTO= _mapper.Map<Analise, AnaliseDTO>(analise);
+            AnaliseDTO analiseDTO = _mapper.Map<Analise, AnaliseDTO>(analise);
             analiseDTO.Links.Add(
                 new LinkDTO("self", Url.Link("GetId", new { id = analiseDTO.PhoebusId }), "GET"));
             return Created($"/api/Analise/{analiseDTO.AnaliseId}", analiseDTO);
@@ -88,7 +80,7 @@ namespace SistemaAPI.Controllers
         {
             if (_analiseRepository.GetById(id) == null)
                 return NotFound();
-            if(analise == null)
+            if (analise == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
@@ -102,7 +94,7 @@ namespace SistemaAPI.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}", Name ="DeleteId")]
+        [HttpDelete("{id}", Name = "DeleteIdAnalise")]
         public IActionResult Delete(int id)
         {
             var analise = _analiseRepository.GetById(id);
