@@ -10,6 +10,8 @@ namespace SuporteCore.Interfaces.Repository
     {
         IQueryable<Analise> GetQueryable();
 
+        IEnumerable<Analise> GetAllPh();
+
         void UppAnaise(Analise analise);
     }
 }

@@ -120,7 +120,7 @@ namespace SuporteCore.Service
         public ListPaginacao<Analise> QueryPag(UrlQuery urlQuery)
         {
             var lstPaginacao = new ListPaginacao<Analise>();
-            var phQuery = _analiRepository.GetAll().AsQueryable();
+            var phQuery = _analiRepository.GetAllPh().AsQueryable();
 
 
             if (urlQuery.PagNumero.HasValue)

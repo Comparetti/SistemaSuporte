@@ -1,4 +1,5 @@
-﻿using SistemaInfra.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaInfra.Data;
 using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using System;
@@ -24,5 +25,13 @@ namespace SistemaInfra.Repository
             var result = from obj in _context.Analise select obj;
             return result;
         }
+        public IEnumerable<Analise> GetAllPh()
+        {
+            var t = _context.Analise
+                .Include("Phoebus")
+                .AsEnumerable();
+            return t;
+        }
+
     }
 }

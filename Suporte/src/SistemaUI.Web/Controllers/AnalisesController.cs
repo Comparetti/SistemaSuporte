@@ -31,6 +31,9 @@ namespace SistemaUI.Web.Controllers
         // GET: Analises
         public async Task<IActionResult> Index(string search, DateTime? minDate, DateTime? maxDate, int page = 1)
         {
+
+            SincAll();
+
             var suporteContext = _context.Analise.Include(a => a.Phoebus);
             if (!String.IsNullOrEmpty(search))
             {

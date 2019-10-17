@@ -34,13 +34,15 @@ namespace SistemaAPI.Controllers
         [HttpGet("", Name = "IndexIntermeio")]
         public IActionResult Index([FromQuery]UrlQuery urlQuery)
         {
+            
+
             var item = _intService.QueryPag(urlQuery);
 
             if (item.Results.Count == 0)
                 return NotFound();
 
-            ListPaginacao<IntermeioDTO> lst = CreateLinksIntermeio(urlQuery, item);
-            return Ok(lst);
+         //   ListPaginacao<IntermeioDTO> lst = CreateLinksIntermeio(urlQuery, item);
+            return Ok(item);
         }
 
         // GET: api/Intermaio/5

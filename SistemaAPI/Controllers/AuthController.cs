@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -40,8 +41,8 @@ namespace SistemaAPI.Controllers
             _appSettings = appSettings.Value;
         }
 
-        [HttpPost("new-user")]
-        public async Task<ActionResult> Register(RegisterUserDTO registerUserDTO)
+        [HttpPost("Register")]
+        public async Task<ActionResult> RegisterNew([FromBody]RegisterUserDTO registerUserDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
 
@@ -58,7 +59,13 @@ namespace SistemaAPI.Controllers
 
             await _singnInManeger.SignInAsync(user, false);
 
-            return Ok(await GerarJWT(registerUserDTO.Email));
+
+            var loginUser = new AccessManager()
+            {
+                User = new LoginUserDTO { Email = registerUserDTO.Email, Password = registerUserDTO.Password },
+                Token = await GerarJWT(registerUserDTO.Email)
+            };
+            return Ok(loginUser);
         }
 
         [HttpPost("login")]
@@ -71,9 +78,46 @@ namespace SistemaAPI.Controllers
             var result = await _singnInManeger.PasswordSignInAsync(loginUserDTO.Email, loginUserDTO.Password, false, true);
 
             if (result.Succeeded)
-                return Ok(await GerarJWT(loginUserDTO.Email));
+            {
+                var loginUser = new AccessManager()
+                {
+                    User = loginUserDTO,
+                    Token = await GerarJWT(loginUserDTO.Email)
+                };
+                return Ok(loginUser);
+
+            }
 
             return BadRequest("Usuário ou senha inválido");
+        }
+        [Authorize]
+        [HttpGet("loadSession")]
+        public async Task<ActionResult> LoadSessionAsync()
+        {
+            var user = _userManager.Users.First();
+            var loginUser = new LoadingState()
+            {
+                User = new RegisterUserDTO() { Email = user.Email, Name = user.UserName },
+                Token = await GerarJWT(user.Email),
+            };
+
+            return Ok(loginUser);
+
+            //var user = new IdentityUser { UserName = loginUserDTO.Email };
+
+            //var result = await _singnInManeger.PasswordSignInAsync(loginUserDTO.Email, loginUserDTO.Password, false, true);
+
+            //if (result.Succeeded)
+            //{
+            //    var loginUser = new AccessManager()
+            //    {
+            //        User = loginUserDTO,
+            //        Token = await GerarJWT(loginUserDTO.Email)
+            //    };
+            //    return Ok(loginUser);
+
+            //}
+
         }
 
         private async Task<string> GerarJWT(string email)

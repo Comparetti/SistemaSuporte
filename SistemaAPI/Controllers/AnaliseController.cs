@@ -38,8 +38,8 @@ namespace SistemaAPI.Controllers
             var item = _analiseService.QueryPag(urlQuery);
             if (_analiseService.QueryPag(urlQuery).Results.Count == 0)
                 return NotFound();
-            ListPaginacao<AnaliseDTO> lst = CreateLinksAnalise(urlQuery, item);
-            return Ok(lst);
+         //   ListPaginacao<AnaliseDTO> lst = CreateLinksAnalise(urlQuery, item);
+            return Ok(item);
         }
 
         // GET: api/Analise/5
@@ -107,6 +107,7 @@ namespace SistemaAPI.Controllers
         {
             var lista = _mapper.Map<ListPaginacao<Analise>, ListPaginacao<AnaliseDTO>>(item);
 
+            
             foreach (var ph in lista.Results)
             {
                 ph.Links = new List<LinkDTO>();

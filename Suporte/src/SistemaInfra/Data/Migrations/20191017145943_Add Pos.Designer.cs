@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaInfra.Data;
 
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    partial class SuporteContextModelSnapshot : ModelSnapshot
+    [Migration("20191017145943_Add Pos")]
+    partial class AddPos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,31 +369,27 @@ namespace SistemaInfra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AluguelDesativado");
+                    b.Property<bool>("AluguelDesativado");
 
                     b.Property<double>("DescontoAluguel");
 
-                    b.Property<string>("DescontoEmFaturamento");
+                    b.Property<bool>("DescontoEmFaturamento");
 
-                    b.Property<string>("DescontoSaldoNegativo");
+                    b.Property<bool>("DescontoSaldoNegativo");
 
-                    b.Property<string>("Desvinculado");
+                    b.Property<bool>("Desvinculado");
 
                     b.Property<int>("DiaVencimento");
 
-                    b.Property<string>("IdUsuario");
-
                     b.Property<string>("Modelo");
-
-                    b.Property<string>("NomeRazao");
 
                     b.Property<string>("NumeroDeSerie");
 
-                    b.Property<string>("Status");
+                    b.Property<bool>("Status");
 
                     b.Property<double>("ValorAluguel");
 
-                    b.Property<string>("VendidoAlugadoAlocado");
+                    b.Property<bool>("VendidoAlugadoAlocado");
 
                     b.HasKey("PosId");
 

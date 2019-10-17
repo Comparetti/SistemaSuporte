@@ -70,9 +70,10 @@ namespace SistemaUI.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IPhoebusService phoebusService, IIntermeioService intermeioService)
         {
+            phoebusService.RequestPhoebus(DateTime.Now);
+
             if (env.IsDevelopment())
             {
-                phoebusService.RequestPhoebus(DateTime.Now);
                 app.UseDeveloperExceptionPage();
                 //app.UseDatabaseErrorPage();
             }

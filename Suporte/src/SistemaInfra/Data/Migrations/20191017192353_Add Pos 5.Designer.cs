@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaInfra.Data;
 
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    partial class SuporteContextModelSnapshot : ModelSnapshot
+    [Migration("20191017192353_Add Pos 5")]
+    partial class AddPos5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,8 +380,6 @@ namespace SistemaInfra.Migrations
                     b.Property<string>("Desvinculado");
 
                     b.Property<int>("DiaVencimento");
-
-                    b.Property<string>("IdUsuario");
 
                     b.Property<string>("Modelo");
 

@@ -21,6 +21,9 @@ namespace SuporteCore.Util
                                       "inner join Usuarios us on us.Id = ps.UsuarioId "+
                                       "where NumeroLogico = '";
 
+        public const string strAluguelPos = "select us.NomeRazao, ps.Id, ps.modelo , ps.NumeroDeSerie, ps.Status, ps.VendidoAlugadoAlocado, ps.DesvinculadoPermanentemente, ap.DescontoAluguel, ap.DiaVencimento, ap.ValorAluguel, ap.DescontoEmFaturamento, ap.DescontoSaldoNegativo, ap.AluguelDesativado, ps.UsuarioId from Pos ps WITH (NOLOCK) inner join AlugueisPos ap on ps.id = ap.PosId inner join Usuarios us on us.id = ps.Usuarioid";
+
+
 
     }
 }

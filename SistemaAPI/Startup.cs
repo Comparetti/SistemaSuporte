@@ -51,22 +51,28 @@ namespace SistemaAPI
 
             #region Dependency Injection
             //Repository
+            services.AddScoped<IExtratoRepository, ExtratoRepository>();
+            services.AddScoped<IPosRepository, PosRepository>();
             services.AddScoped<IPhoebusRepository, PhoebusRepository>();
             services.AddScoped<IIntermeioRepository, IntermeioRepository>();
             services.AddScoped<IAnaliseRepository, AnaliseRepository>();
             //Service
+            services.AddScoped<IExtratoService, ExtratoService>();
+            services.AddScoped<IPosService, PosService>();
             services.AddScoped<IPhoebusService, PhoebusService>();
             services.AddScoped<IIntermeioService, IntermeioService>();
             services.AddScoped<IAnaliseService, AnaliseService>();
             #endregion
 
-            services.AddDbContext<SuporteContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SuporteContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddDbContext<SuporteContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             #region JWT
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -99,19 +105,34 @@ namespace SistemaAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            IPhoebusService _phoebusService, 
+            IIntermeioService _intermeioService, 
+            IAnaliseService _analiseService,
+            IPosService _posService)
         {
             if (env.IsDevelopment())
             {
+                //_phoebusService.RequestPhoebus(DateTime.Now);
+                //_intermeioService.GetAllBaseIntermeio();
+                //_analiseService.ValidationAnalise();
+                //_posService.RequestPosByIntermeio();
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //_phoebusService.RequestPhoebus(DateTime.Now);
+                //_intermeioService.GetAllBaseIntermeio();
+                //_analiseService.ValidationAnalise();
+                //_posService.RequestPosByIntermeio();
+                //_posService.RequestPosByIntermeio();
                 app.UseHsts();
+
             }
 
-          //  app.UseHttpsRedirection();
+            //  app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();

@@ -12,5 +12,7 @@ namespace SistemaInfra.Data
         public DbSet<Intermeio> Intermeio { get; set; }
         public DbSet<Phoebus> Phoebus { get; set; }
         public DbSet<Analise> Analise { get; set; }
+        public DbSet<Pos> Pos { get; set; }
+        public DbSet<Extrato> Extrato { get; set; }
     }
 }

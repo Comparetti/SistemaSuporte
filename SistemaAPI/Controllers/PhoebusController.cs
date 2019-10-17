@@ -14,7 +14,7 @@ using SuporteCore.Util;
 namespace SistemaAPI.Controllers
 {
     [Authorize]
-     [Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PhoebusController : ControllerBase
     {
@@ -23,14 +23,13 @@ namespace SistemaAPI.Controllers
         private readonly IMapper _mapper;
 
 
-       
+
         public PhoebusController(IPhoebusRepository context, IPhoebusService phoebusService, IMapper mapper)
         {
             _phoebusService = phoebusService;
             _mapper = mapper;
             _PhRespository = context;
         }
-
         [HttpGet("", Name = "Index")]
         public IActionResult Index([FromQuery]UrlQuery urlQuery)
         {
@@ -40,12 +39,8 @@ namespace SistemaAPI.Controllers
                 return NotFound();
 
             ListPaginacao<PhoebusDTO> lista = CreateLinksPhoebus(urlQuery, item);
-            var lst = lista;
             return Ok(lista);
         }
-
-
-
         // GET: api/Phoebus/5
         [HttpGet("{Id}", Name = "GetId")]
         public IActionResult Get(int? Id)
@@ -66,7 +61,6 @@ namespace SistemaAPI.Controllers
 
             return Ok(phoebusDTO);
         }
-
         // POST: api/Phoebus
         [HttpPost]
         public IActionResult Post([FromBody] Phoebus phoebus)
@@ -78,7 +72,6 @@ namespace SistemaAPI.Controllers
                 new LinkDTO("self", Url.Link("GetId", new { id = phoebusDTO.PhoebusId }), "GET"));
             return Created($"/api/Phoebus/{phoebusDTO.PhoebusId}", phoebusDTO);
         }
-
         // PUT: api/Phoebus/5
         [HttpPut("{id}", Name = "UppPhoebus")]
         public IActionResult Put(int id, [FromBody] Phoebus ph)
@@ -96,9 +89,7 @@ namespace SistemaAPI.Controllers
             _PhRespository.UpdatePhoebus(ph);
 
             return Ok();
-
         }
-
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}", Name = "DeleteId")]
         public IActionResult Delete(int id)
@@ -107,7 +98,6 @@ namespace SistemaAPI.Controllers
             _PhRespository.Delete(ph);
             return Ok();
         }
-
         #region Create Link Phoebus
         private ListPaginacao<PhoebusDTO> CreateLinksPhoebus(UrlQuery urlQuery, ListPaginacao<Phoebus> item)
         {
@@ -137,7 +127,6 @@ namespace SistemaAPI.Controllers
                     lista.Links.Add(new LinkDTO("prev", Url.Link("Index", queryString), "GET"));
                 }
             }
-
             return lista;
         }
         #endregion
