@@ -23,7 +23,9 @@ namespace SuporteCore.Util
 
         public const string strAluguelPos = "select us.NomeRazao, ps.Id, ps.modelo , ps.NumeroDeSerie, ps.Status, ps.VendidoAlugadoAlocado, ps.DesvinculadoPermanentemente, ap.DescontoAluguel, ap.DiaVencimento, ap.ValorAluguel, ap.DescontoEmFaturamento, ap.DescontoSaldoNegativo, ap.AluguelDesativado, ps.UsuarioId from Pos ps WITH (NOLOCK) inner join AlugueisPos ap on ps.id = ap.PosId inner join Usuarios us on us.id = ps.Usuarioid";
 
+        public const string strDetalhePos = "select ps.DataCadastro, us.NomeRazao, us.cpfcnpj,ps.modelo , ps.NumeroDeSerie, ps.DesvinculadoPermanentemente, ap.DiaVencimento, ap.ValorAluguel, ap.DescontoEmFaturamento, ap.AluguelDesativado, np.NumeroLogico from Pos ps WITH (NOLOCK) inner join Usuarios us on us.id = ps.UsuarioId inner join AlugueisPos ap on ap.Posid = ps.id inner join NumerosLogicoPos np on np.id = ps.NumerologicoId";
 
-
+        public const string strExtratoPos = "select* from ExtratosUsuarios eu inner join Usuarios us on eu.UsuarioId = us.id where eu.TipoTransacao = 'ALUGUEL-POS' and eu.DataCadastro >  '";
+        
     }
 }

@@ -17,9 +17,24 @@ namespace SistemaInfra.Repository
         {
             return _context.Set<Pos>().ToList().Count();
         }
-        public List<string> GetUsuarioId()
+        public List<string> GetCpfcnpj()
         {
-            return _context.Set<Pos>().Select(x => x.IdUsuario).ToList();
+            return _context.Set<Pos>().Select(x => x.Cpfcnpj).ToList();
+        }
+        public double GetTotalAluguel(string cnpj)
+        {
+            return _context.Set<Pos>().Where(x => x.Cpfcnpj == cnpj)
+                .Where(x => x.DescontoEmFaturamento == "Ativo")
+                .Select(x => x.ValorAluguel).Sum();
+        }
+        public string GetNomeRazao(string cnpj)
+        {
+            return _context.Set<Pos>().Where(x => x.Cpfcnpj == cnpj).FirstOrDefault().NomeRazao;
+                
+        }
+        public List<Pos> GetPosList(string cnpj)
+        {
+            return _context.Set<Pos>().Where(x => x.Cpfcnpj == cnpj).ToList();
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SuporteCore.Interfaces.Repository;
+using SuporteCore.Interfaces.Service;
 
 namespace SistemaAPI.Controllers
 {
@@ -11,20 +13,22 @@ namespace SistemaAPI.Controllers
     [ApiController]
     public class ExtratoController : ControllerBase
     {
+        private readonly IExtratoRepository _extratoRepository;
+        private readonly IExtratoService _extratoService;
+
+        public ExtratoController(IExtratoRepository extratoRepository, IExtratoService extratoService )
+        {
+            _extratoRepository = extratoRepository;
+            _extratoService = extratoService;
+        }
+
         // GET: api/Extrato
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            _extratoService.ValidationAluguel();
+            return Ok();
         }
-
-        // GET: api/Extrato/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/Extrato
         [HttpPost]
         public void Post([FromBody] string value)

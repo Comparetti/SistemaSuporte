@@ -10,19 +10,17 @@ namespace SuporteCore.Entity
         {
         }
         public int PosId { get; set; }
-        public string IdUsuario { get; set; }
+        public string  DataCadastro { get; set; }
         public string  NomeRazao { get; set; }
-        public string  Modelo { get; set; }
+        public string Cpfcnpj { get; set; }
         public string  NumeroDeSerie { get; set; }
-        public string Status { get; set; }
-        public string VendidoAlugadoAlocado { get; set; }
-        public string Desvinculado { get; set; }
-        public double DescontoAluguel { get; set; }
-        public int DiaVencimento { get; set; }
+        public string NumeroLogico { get; set; }
+        public string  Modelo { get; set; }
         public double ValorAluguel { get; set; }
+        public int DiaVencimento { get; set; }
         public string DescontoEmFaturamento { get; set; }
-        public string DescontoSaldoNegativo { get; set; }
-        public string AluguelDesativado { get; set; }
+        public string AluguelStatus { get; set; }
+        public string PosStatus { get; set; }
 
     }
 }

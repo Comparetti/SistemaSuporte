@@ -22,8 +22,6 @@ namespace SistemaAPI.Controllers
         private readonly IPhoebusService _phoebusService;
         private readonly IMapper _mapper;
 
-
-
         public PhoebusController(IPhoebusRepository context, IPhoebusService phoebusService, IMapper mapper)
         {
             _phoebusService = phoebusService;

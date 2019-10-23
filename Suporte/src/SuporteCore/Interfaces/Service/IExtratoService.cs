@@ -8,6 +8,6 @@ namespace SuporteCore.Interfaces.Service
     public interface IExtratoService
     {
         IEnumerable<Extrato> GetAll();
-        void ValidationAluguel(List<Pos> lstPos);
+        void ValidationAluguel();
     }
 }

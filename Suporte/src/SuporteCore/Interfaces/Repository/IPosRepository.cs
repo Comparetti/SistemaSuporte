@@ -8,6 +8,9 @@ namespace SuporteCore.Interfaces.Repository
     public interface IPosRepository : IRepository<Pos>
     {
         int AmountPos();
-        List<string> GetUsuarioId();
+        List<string> GetCpfcnpj();
+        double GetTotalAluguel(string cnpj);
+        string GetNomeRazao(string cnpj);
+        List<Pos> GetPosList(string cnpj);
     }
 }

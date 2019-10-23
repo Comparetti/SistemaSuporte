@@ -3,6 +3,7 @@ using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SistemaInfra.Repository
@@ -12,7 +13,13 @@ namespace SistemaInfra.Repository
         public ExtratoRepository(SuporteContext context) : base(context)
         {
         }
-
-
+        public void AddExtato(Extrato extrato)
+        {
+            _context.Add(extrato);
+        }
+        public bool ValidaCnpjBase(string cnpj)
+        {
+            return  _context.Set<Extrato>().Select(x => x.cpfcnpj).Contains(cnpj);
+        }
     }
 }

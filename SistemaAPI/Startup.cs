@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SistemaInfra.Data;
 using SistemaInfra.Repository;
 using SuporteCore.Interfaces.Repository;
 using SuporteCore.Interfaces.Service;
 using SuporteCore.Service;
-using AutoMapper;
 using SuporteCore.Util;
-using Microsoft.AspNetCore.Identity;
+using System;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace SistemaAPI
 {
@@ -65,6 +60,8 @@ namespace SistemaAPI
             #endregion
 
 
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
@@ -105,37 +102,34 @@ namespace SistemaAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            IPhoebusService _phoebusService, 
-            IIntermeioService _intermeioService, 
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            IPhoebusService _phoebusService,
+            IIntermeioService _intermeioService,
             IAnaliseService _analiseService,
             IPosService _posService)
         {
             if (env.IsDevelopment())
             {
-                //_phoebusService.RequestPhoebus(DateTime.Now);
-                //_intermeioService.GetAllBaseIntermeio();
-                //_analiseService.ValidationAnalise();
-                //_posService.RequestPosByIntermeio();
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //_phoebusService.RequestPhoebus(DateTime.Now);
-                //_intermeioService.GetAllBaseIntermeio();
-                //_analiseService.ValidationAnalise();
-                //_posService.RequestPosByIntermeio();
-                //_posService.RequestPosByIntermeio();
                 app.UseHsts();
-
             }
-
             //  app.UseHttpsRedirection();
+            app.UseHangfireDashboard();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();
+
+            #region Background Jobs HangFire
+            //BackgroundJob.Schedule(() => _phoebusService.RequestPhoebus(DateTime.Now, "00:00:00", "23:59:59"), TimeSpan.FromMinutes(60));
+            //RecurringJob.AddOrUpdate(() => _intermeioService.GetAllBaseIntermeio(), Cron.Daily(12, 30));
+            //RecurringJob.AddOrUpdate(() => _analiseService.ValidationAnalise(), Cron.Daily(12, 30));
+            //RecurringJob.AddOrUpdate(() => _posService.RequestPosByIntermeio(), Cron.Daily(12, 30));
+            #endregion
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaInfra.Data;
 
 namespace SistemaInfra.Migrations
 {
     [DbContext(typeof(SuporteContext))]
-    partial class SuporteContextModelSnapshot : ModelSnapshot
+    [Migration("20191018145556_HangFIre")]
+    partial class HangFIre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,21 +225,17 @@ namespace SistemaInfra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CountPos");
+
                     b.Property<string>("DataCadastro");
 
+                    b.Property<int>("ExtratoAluguelId");
+
+                    b.Property<string>("IdTransacao");
+
+                    b.Property<string>("IdUsuario");
+
                     b.Property<string>("NomeRazao");
-
-                    b.Property<string>("PosAtivas");
-
-                    b.Property<int>("PosCadastradas");
-
-                    b.Property<string>("StatusCobranca");
-
-                    b.Property<string>("TotalAluguel");
-
-                    b.Property<string>("TotalRecebido");
-
-                    b.Property<string>("cpfcnpj");
 
                     b.HasKey("ExtratoId");
 
@@ -394,17 +392,17 @@ namespace SistemaInfra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AluguelStatus");
+                    b.Property<string>("AluguelDesativado");
 
-                    b.Property<string>("Cpfcnpj");
-
-                    b.Property<string>("DataCadastro");
+                    b.Property<double>("DescontoAluguel");
 
                     b.Property<string>("DescontoEmFaturamento");
 
-                    b.Property<int>("DiaVencimento");
+                    b.Property<string>("DescontoSaldoNegativo");
 
-                    b.Property<int?>("ExtratoId");
+                    b.Property<string>("Desvinculado");
+
+                    b.Property<int>("DiaVencimento");
 
                     b.Property<string>("IdUsuario");
 
@@ -414,15 +412,13 @@ namespace SistemaInfra.Migrations
 
                     b.Property<string>("NumeroDeSerie");
 
-                    b.Property<string>("NumeroLogico");
-
-                    b.Property<string>("PosStatus");
+                    b.Property<string>("Status");
 
                     b.Property<double>("ValorAluguel");
 
-                    b.HasKey("PosId");
+                    b.Property<string>("VendidoAlugadoAlocado");
 
-                    b.HasIndex("ExtratoId");
+                    b.HasKey("PosId");
 
                     b.ToTable("Pos");
                 });
@@ -478,13 +474,6 @@ namespace SistemaInfra.Migrations
                         .WithMany()
                         .HasForeignKey("PhoebusId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SuporteCore.Entity.Pos", b =>
-                {
-                    b.HasOne("SuporteCore.Entity.Extrato")
-                        .WithMany("ListClientePos")
-                        .HasForeignKey("ExtratoId");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,47 +26,44 @@ namespace SuporteCore.Service
 
         public IEnumerable<Pos> GetPosDesativada(bool valida)
         {
-            return _posRepository.GetAll().Where(x => x.Desvinculado.Contains("true"));
+            throw new NotImplementedException();
+            // return _posRepository.GetAll().Where(x => x.DesvinculadoPermanentemente.Contains("true"));
         }
-
         public void RequestPosByIntermeio()
         {
             List<Pos> lstPos = new List<Pos>();
-            using (SqlCommand coon = new SqlCommand(Constante.strAluguelPos, _con))
+            using (SqlCommand coon = new SqlCommand(Constante.strDetalhePos, _con))
             {
                 _con.Open();
                 SqlDataReader reader = coon.ExecuteReader();
                 while (reader.Read())
                 {
                     Pos pos = new Pos();
-                    pos.Modelo = Convert.ToString(reader["modelo"]);
-                    pos.NomeRazao= Convert.ToString(reader["NomeRazao"]);
-                    pos.IdUsuario = Convert.ToString(reader["UsuarioId"]);
-                    pos.NumeroDeSerie = Convert.ToString(reader["NumeroDeSerie"]);
-                    pos.Status = Convert.ToString(reader["Status"]).Replace("1", "true").Replace("0", "false");
-                    pos.VendidoAlugadoAlocado = Convert.ToString(reader["VendidoAlugadoAlocado"]).Replace("1", "true").Replace("0", "false");
-                    pos.Desvinculado = Convert.ToString(reader["DesvinculadoPermanentemente"]).Replace("1","true").Replace("0","false");
-                    pos.DescontoAluguel = Convert.ToDouble(reader["DescontoAluguel"]);
-                    pos.DiaVencimento = Convert.ToInt32(reader["DiaVencimento"]);
-                    pos.ValorAluguel = Convert.ToDouble(reader["ValorAluguel"]);
-                    pos.DescontoEmFaturamento = Convert.ToString(reader["DescontoEmFaturamento"]).Replace("1", "true").Replace("0", "false");
-                    pos.DescontoSaldoNegativo = Convert.ToString(reader["DescontoSaldoNegativo"]).Replace("1", "true").Replace("0", "false");
-                    pos.AluguelDesativado = Convert.ToString(reader["AluguelDesativado"]).Replace("1", "true").Replace("0", "false");
+                    pos.DataCadastro = Convert.ToString(reader["DataCadastro"]);
 
+                    pos.Cpfcnpj = Convert.ToString(reader["cpfcnpj"]);
+                    pos.NomeRazao = Convert.ToString(reader["NomeRazao"]);
+
+                    pos.Modelo = Convert.ToString(reader["modelo"]);
+                    pos.NumeroDeSerie = Convert.ToString(reader["NumeroDeSerie"]);
+                    pos.NumeroLogico = Convert.ToString(reader["NumeroLogico"]);
+
+                    pos.ValorAluguel = Convert.ToDouble(reader["ValorAluguel"]);
+                    pos.DescontoEmFaturamento = Convert.ToString(reader["DescontoEmFaturamento"]).Replace("False", "Desativada").Replace("True", "Ativo");
+                    pos.DiaVencimento = Convert.ToInt32(reader["DiaVencimento"]);
+                    pos.AluguelStatus = Convert.ToString(reader["AluguelDesativado"]).Replace("True", "Desativado").Replace("False", "Ativo");
+                    pos.PosStatus = Convert.ToString(reader["DesvinculadoPermanentemente"]).Replace("True", "Desativado").Replace("False", "Ativo");
                     lstPos.Add(pos);
                 }
                 _con.Close();
             }
-            _posRepository.Add(lstPos);
-                 //if (lstPos.Count != _posRepository.AmountPos())
-                 //    ValidationBase(lstPos);
+            if (lstPos.Count != _posRepository.AmountPos())
+                ValidationBase(lstPos);
         }
 
         public void ValidationAluguel(List<Pos> lstPos)
         {
-            var lstUsuariosId = lstPos.Select(x => x.IdUsuario).ToList();
-
-
+            var lstUsuariosId = lstPos.Select(x => x.Cpfcnpj).ToList();
             throw new NotImplementedException();
         }
         public void ValidationBase(List<Pos> lstPos)
