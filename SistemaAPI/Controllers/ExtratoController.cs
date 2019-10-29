@@ -26,8 +26,7 @@ namespace SistemaAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            _extratoService.ValidationAluguel();
-            return Ok();
+            return Ok(_extratoRepository.GetAllExtratoByPos());
         }
         // POST: api/Extrato
         [HttpPost]

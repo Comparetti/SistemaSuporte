@@ -1,4 +1,5 @@
-﻿using SistemaInfra.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaInfra.Data;
 using SuporteCore.Entity;
 using SuporteCore.Interfaces.Repository;
 using System;
@@ -17,9 +18,13 @@ namespace SistemaInfra.Repository
         {
             _context.Add(extrato);
         }
-        public bool ValidaCnpjBase(string cnpj)
+        public bool ValidaCnpjBase(string cnpj, string dateTime)
         {
-            return  _context.Set<Extrato>().Select(x => x.cpfcnpj).Contains(cnpj);
+            return  _context.Set<Extrato>().Where(x => x.DataCadastro == dateTime).Select(x => x.cpfcnpj).Contains(cnpj);
+        }
+        public List<Extrato> GetAllExtratoByPos()
+        {
+            return _context.Extrato.Include(Extrato => Extrato.ListClientePos).ToList();
         }
     }
 }

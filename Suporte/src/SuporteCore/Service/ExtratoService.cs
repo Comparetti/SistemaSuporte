@@ -37,21 +37,21 @@ namespace SuporteCore.Service
         public void ValidationAluguel()
         {
             List<Extrato> lstextratos = new List<Extrato>();
-            
+            List<string> ValidaCadastroExtrato = new List<string>();
 
             var lstPos = _posRepository.GetCpfcnpj();
 
-
             foreach (var usuario in lstPos)
             {
-                if (!_extratoRepository.ValidaCnpjBase(usuario))
+                //Valida se ja foi cadastrado na base o extrato da POS do mês 
+                if (!_extratoRepository.ValidaCnpjBase(usuario, DateTime.Now.AddDays(-20).ToString("yyyy-MM")) && !ValidaCadastroExtrato.Contains(usuario))
                 {
                     Extrato extrato = new Extrato();
 
                     extrato.ListClientePos = _posRepository.GetPosList(usuario);
                     extrato.cpfcnpj = usuario;
                     extrato.NomeRazao = _posRepository.GetNomeRazao(usuario);
-                    extrato.DataCadastro = DateTime.Now.ToString("yyyy-MM-dd");
+                    extrato.DataCadastro = DateTime.Now.ToString("yyyy-MM");
                     extrato.PosCadastradas = lstPos.FindAll(x => x.Equals(usuario)).Count;
                     extrato.TotalAluguel = _posRepository.GetTotalAluguel(usuario);
 
@@ -67,13 +67,13 @@ namespace SuporteCore.Service
                             double valorAluguel = Convert.ToDouble(reader["Valor"]);
                             extrato.TotalRecebido = extrato.TotalRecebido + valorAluguel;
                         }
-                        extrato.StatusCobranca = extrato.TotalRecebido == extrato.TotalAluguel ? "Ok" : "Incorreto";
+                        extrato.StatusCobranca = extrato.TotalRecebido == extrato.TotalAluguel ? "Correto" : "Incorreto";
+                        ValidaCadastroExtrato.Add(usuario);
                         lstextratos.Add(extrato);
                     }
                 }
             }
-
-            throw new NotImplementedException();
+            _extratoRepository.Add(lstextratos);
         }
     }
 }

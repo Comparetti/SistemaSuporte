@@ -7,6 +7,8 @@ namespace SuporteCore.Interfaces.Repository
 {
     public interface IExtratoRepository : IRepository<Extrato>
     {
-        bool ValidaCnpjBase(string cnpj);
+        bool ValidaCnpjBase(string cnpj, string dateTime);
+        List<Extrato> GetAllExtratoByPos();
+
     }
 }

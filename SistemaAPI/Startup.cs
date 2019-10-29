@@ -51,7 +51,9 @@ namespace SistemaAPI
             services.AddScoped<IPhoebusRepository, PhoebusRepository>();
             services.AddScoped<IIntermeioRepository, IntermeioRepository>();
             services.AddScoped<IAnaliseRepository, AnaliseRepository>();
+            services.AddScoped<IExtratoRepository, ExtratoRepository>();
             //Service
+            services.AddScoped<IExtratoService, ExtratoService>();
             services.AddScoped<IExtratoService, ExtratoService>();
             services.AddScoped<IPosService, PosService>();
             services.AddScoped<IPhoebusService, PhoebusService>();
@@ -107,7 +109,8 @@ namespace SistemaAPI
             IPhoebusService _phoebusService,
             IIntermeioService _intermeioService,
             IAnaliseService _analiseService,
-            IPosService _posService)
+            IPosService _posService,
+            IExtratoService _extratoService)
         {
             if (env.IsDevelopment())
             {
@@ -125,10 +128,11 @@ namespace SistemaAPI
             app.UseMvc();
 
             #region Background Jobs HangFire
-            //BackgroundJob.Schedule(() => _phoebusService.RequestPhoebus(DateTime.Now, "00:00:00", "23:59:59"), TimeSpan.FromMinutes(60));
-            //RecurringJob.AddOrUpdate(() => _intermeioService.GetAllBaseIntermeio(), Cron.Daily(12, 30));
-            //RecurringJob.AddOrUpdate(() => _analiseService.ValidationAnalise(), Cron.Daily(12, 30));
-            //RecurringJob.AddOrUpdate(() => _posService.RequestPosByIntermeio(), Cron.Daily(12, 30));
+            BackgroundJob.Schedule(() => _phoebusService.RequestPhoebus(DateTime.Now, "00:00:00", "23:59:59"), TimeSpan.FromMinutes(60));
+            RecurringJob.AddOrUpdate(() => _intermeioService.GetAllBaseIntermeio(), Cron.Daily(12, 30));
+            RecurringJob.AddOrUpdate(() => _analiseService.ValidationAnalise(), Cron.Daily(12, 30));
+            RecurringJob.AddOrUpdate(() => _posService.RequestPosByIntermeio(), Cron.Daily(12, 30));
+            RecurringJob.AddOrUpdate(() => _extratoService.ValidationAluguel(), Cron.Daily(12, 30));
             #endregion
         }
     }
