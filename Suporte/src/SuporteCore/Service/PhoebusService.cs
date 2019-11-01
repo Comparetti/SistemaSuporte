@@ -79,7 +79,7 @@ namespace SuporteCore.Service
             var result = Util.RequestPhoebus.Get<DefaultRequest>(Constante.UrlEndPoint + parametros);
 
             //Create Query more pages request Phoebus
-           // ValidationBaseByNsu(result.content);
+            ValidationBaseByNsu(result.content);
         }
         public void ValidationBaseByNsu(List<Phoebus> RequestListPhoebus)
         {
